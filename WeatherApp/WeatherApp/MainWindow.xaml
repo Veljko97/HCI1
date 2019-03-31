@@ -5,105 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WeatherApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1500">
+        Title="MainWindow" Height="700" Width="1200">
     <Grid Margin="0,0,2,-21">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="71*"/>
-            <ColumnDefinition Width="78*"/>
-        </Grid.ColumnDefinitions>
-        <Label Grid.ColumnSpan="2" Content="City" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="42,44,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Grid.ColumnSpan="2" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="42,87,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Grid.ColumnSpan="2" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="232,44,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <TextBox Name="countryText" HorizontalAlignment="Left"  Height="28" Margin="361,70,0,0" VerticalAlignment="Top" Width="273" TextWrapping="Wrap" Grid.Column="2"  />
-        <Button Content="Search" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="361,109,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" Grid.Column="2"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="75*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="City" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="42,44,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner" FontWeight="Bold"/>
+        <Label Grid.Row="0" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="42,87,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="232,44,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Content="Show:" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
+        <Button Content="°C" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
+        <Button Content="°F" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="559,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>
+        
+        <Label Content="City:" Grid.Column="2" HorizontalAlignment="Left" Margin="711,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
+        <TextBox Grid.Row="0" Name="countryText" HorizontalAlignment="Left"  Height="28" Margin="711,70,0,0" VerticalAlignment="Top" Width="273" TextWrapping="Wrap" Grid.Column="2"  />
+        <Button Grid.Row="0" Content="Search" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="711,109,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" Grid.Column="2"/>
 
         <!-- Datum i satnica labela -->
-        <Label Name="label_3"  Foreground="white"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="93,186,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
-        <Label Name="label_6"  Foreground="White"  Grid.ColumnSpan="2" Content="6"   HorizontalAlignment="Left" Height="40" Margin="267,186,0,0"  VerticalAlignment="Top" Width="129" FontSize="12"/>
-        <Label Name="label_9"  Foreground="White"  Grid.ColumnSpan="2" Content="9"   HorizontalAlignment="Left" Height="40" Margin="431,186,0,0"  VerticalAlignment="Top" Width="138" FontSize="12"/>
-        <Label Name="label_12" Foreground="White"  Grid.ColumnSpan="3" Content="12"  HorizontalAlignment="Left" Height="40" Margin="597,186,0,0"  VerticalAlignment="Top" Width="154" FontSize="12"/>
-        <Label Name="label_15" Foreground="White" Content="15"  HorizontalAlignment="Left" Height="40" Margin="79,186,0,0"  VerticalAlignment="Top" Width="149" FontSize="12" Grid.Column="2"/>
-        <Label Name="label_18" Foreground="White" Content="18"  HorizontalAlignment="Left" Height="40" Margin="251,186,0,0"  VerticalAlignment="Top" Width="144" FontSize="12" Grid.Column="2" />
-        <Label Name="label_21" Foreground="White" Content="21"  HorizontalAlignment="Left" Height="40" Margin="401,186,0,0" VerticalAlignment="Top" Width="146" FontSize="12" Grid.Column="2" />
-        <Label Name="label_24" Foreground="White" Content="24"  HorizontalAlignment="Left" Height="40" Margin="552,186,0,0" VerticalAlignment="Top" Width="149" FontSize="12" Grid.Column="2" />
+        <Label Grid.Row="1" Name="label_1" Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
 
         <!-- Temperature po satima labela -->
-        <Label Name="label_3T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="127,359,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Name="label_6T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="267,359,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Name="label_9T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="431,359,0,0"  VerticalAlignment="Top" Width="72"/>
-        <Label Name="label_12T" Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="623,359,0,0"  VerticalAlignment="Top" Width="70" RenderTransformOrigin="0.479,0.48"/>
-        <Label Name="label_15T" Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="79,359,0,0"  VerticalAlignment="Top" Width="72" Grid.Column="2"/>
-        <Label Name="label_18T" Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="245,359,0,0" VerticalAlignment="Top" Width="72" Grid.Column="2"/>
-        <Label Name="label_21T" Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="417,359,0,0" VerticalAlignment="Top" Width="70" Grid.Column="2"/>
-        <Label Name="label_24T" Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="567,359,0,0" VerticalAlignment="Top" Width="72" Grid.Column="2"/>
+        <Label Grid.Row="1" Name="label_1T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
 
         <!-- Vetar labela -->
-        <Label x:Name="label_3Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="127,401,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label x:Name="label_6Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="267,401,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label x:Name="label_9Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="431,406,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label x:Name="label_12Wind"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="623,406,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label x:Name="label_15Wind"  Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="81,406,0,0"  VerticalAlignment="Top" Width="70" Grid.Column="2"/>
-        <Label x:Name="label_18Wind"  Foreground="White" Content="Label" HorizontalAlignment="Left" Height="32" Margin="245,406,0,0"  VerticalAlignment="Top" Width="70" Grid.Column="2"/>
-        <Label x:Name="label_21Wind"  Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="417,406,0,0"  VerticalAlignment="Top" Width="70" Grid.Column="2"/>
-        <Label x:Name="label_24Wind"  Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="567,406,0,0"  VerticalAlignment="Top" Width="70" Grid.Column="2"/>
+        <Label Grid.Row="1" x:Name="label_1Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
 
         <!-- Pritisak labela -->
-        <Label x:Name="label_3Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="127,450,0,0"  VerticalAlignment="Top" Width="91"/>
-        <Label x:Name="label_6Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="267,450,0,0"  VerticalAlignment="Top" Width="90"/>
-        <Label x:Name="label_9Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="433,450,0,0"  VerticalAlignment="Top" Width="88"/>
-        <Label x:Name="label_12Pressure"   Foreground="White"  Grid.ColumnSpan="3" Content="Label" HorizontalAlignment="Left" Height="33" Margin="623,450,0,0"  VerticalAlignment="Top" Width="88"/>
-        <Label x:Name="label_15Pressure"   Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="81,450,0,0"  VerticalAlignment="Top" Width="86" Grid.Column="2"/>
-        <Label x:Name="label_18Pressure"   Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="247,450,0,0"  VerticalAlignment="Top" Width="109" Grid.Column="2"/>
-        <Label x:Name="label_21Pressure"   Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="417,450,0,0"  VerticalAlignment="Top" Width="91" Grid.Column="2"/>
-        <Label x:Name="label_24Pressure"   Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="569,450,0,0"  VerticalAlignment="Top" Width="104" Grid.Column="2"/>
+        <Label Grid.Row="1" x:Name="label_1Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
 
 
         <!-- Slika opisa vremena -->
-        <Image Name="Img3"   Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="81" Margin="113,254,0,0"  VerticalAlignment="Top" Width="84"/>
-        <Image Name="Img6"   Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="81" Margin="255,254,0,0"  VerticalAlignment="Top" Width="82"/>
-        <Image Name="Img9"   Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="81" Margin="409,254,0,0"  VerticalAlignment="Top" Width="94"/>
-        <Image Name="Img12"  Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="81" Margin="597,254,0,0"  VerticalAlignment="Top" Width="82"/>
-        <Image Name="Img15"  Source="sunny.png" HorizontalAlignment="Left" Height="81" Margin="69,254,0,0"  VerticalAlignment="Top" Width="82" Grid.Column="2"/>
-        <Image Name="Img18"  Source="sunny.png" HorizontalAlignment="Left" Height="81" Margin="231,254,0,0"  VerticalAlignment="Top" Width="86" Grid.Column="2"/>
-        <Image Name="Img21"  Source="sunny.png" HorizontalAlignment="Left" Height="81" Margin="401,254,0,0" VerticalAlignment="Top" Width="86" Grid.Column="2"/>
-        <Image Name="Img24"  Source="sunny.png" HorizontalAlignment="Left" Height="81" Margin="553,254,0,0" VerticalAlignment="Top" Width="86" Grid.Column="2"/>
+        <Image Grid.Row="1" Name="Img1"   Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
 
         <!-- Slika termometar-->
-        <Image Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="74,359,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="223,359,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="362,359,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="555,359,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Source="therm.png" HorizontalAlignment="Left" Height="42" Margin="40,359,0,0" VerticalAlignment="Top" Width="34" Grid.Column="2"/>
-        <Image Source="therm.png" HorizontalAlignment="Left" Height="42" Margin="194,359,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.471,1.179" Grid.Column="2"/>
-        <Image Source="therm.png" HorizontalAlignment="Left" Height="42" Margin="361,359,0,0" VerticalAlignment="Top" Width="34" Grid.Column="2"/>
-        <Image Source="therm.png" HorizontalAlignment="Left" Height="42" Margin="513,359,0,0" VerticalAlignment="Top" Width="34" Grid.Column="2"/>
+        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
 
         <!-- Slika vetar-->
-        <Image Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="74,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="223,401,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="362,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="555,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="wind.png" HorizontalAlignment="Left" Height="44" Margin="40,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="wind.png" HorizontalAlignment="Left" Height="44" Margin="194,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="wind.png" HorizontalAlignment="Left" Height="44" Margin="361,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="wind.png" HorizontalAlignment="Left" Height="44" Margin="513,406,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
+        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
 
 
         <!-- Slika barometar-->
-        <Image Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="74,450,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="223,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="362,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="555,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Source="barometer.png" HorizontalAlignment="Left" Height="44" Margin="40,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="barometer.png" HorizontalAlignment="Left" Height="44" Margin="194,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="barometer.png" HorizontalAlignment="Left" Height="44" Margin="361,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Image Source="barometer.png" HorizontalAlignment="Left" Height="44" Margin="513,445,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486" Grid.Column="2"/>
-        <Label Content="Show:" Grid.Column="2" HorizontalAlignment="Left" Margin="79,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
-        <Button Content="°C" Grid.Column="2" HorizontalAlignment="Left" Margin="76,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
-        <Button Content="°F" Grid.Column="2" HorizontalAlignment="Left" Margin="178,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>
-        <Label Content="City:" Grid.Column="2" HorizontalAlignment="Left" Margin="361,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
+        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
 
+        <Label Grid.Row="1" x:Name="label_2"  Foreground="white"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="284,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
+        <Label Grid.Row="1" x:Name="label_2T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,150,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_2Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,200,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_2Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,250,0,0"  VerticalAlignment="Top" Width="90"/>
+        <Image Grid.Row="1" x:Name="Img2" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="295,85,0,0"  VerticalAlignment="Top" Width="54"/>
+        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="256,150,0,0" VerticalAlignment="Top" Width="34"/>
+        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="256,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="256,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+
+
+        <Label Grid.Row="1" x:Name="label_3"  Foreground="white"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="484,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
+        <Label Grid.Row="1" x:Name="label_3T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,150,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_3Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,200,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_3Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,250,0,0"  VerticalAlignment="Top" Width="90"/>
+        <Image Grid.Row="1" x:Name="Img3" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="495,85,0,0"  VerticalAlignment="Top" Width="54"/>
+        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="456,150,0,0" VerticalAlignment="Top" Width="34"/>
+        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="456,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="456,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+
+        <Label Grid.Row="1" x:Name="label_4"  Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="684,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
+        <Label Grid.Row="1" x:Name="label_4T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,150,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_4Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,200,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_4Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,250,0,0"  VerticalAlignment="Top" Width="90"/>
+        <Image Grid.Row="1" x:Name="Img4" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="695,85,0,0"  VerticalAlignment="Top" Width="54"/>
+        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="656,150,0,0" VerticalAlignment="Top" Width="34"/>
+        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="656,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="656,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+
+        <Label Grid.Row="1" x:Name="label_5"  Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="884,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
+        <Label Grid.Row="1" x:Name="label_5T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,150,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_5Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,200,0,0"  VerticalAlignment="Top" Width="70"/>
+        <Label Grid.Row="1" x:Name="label_5Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,250,0,0"  VerticalAlignment="Top" Width="90"/>
+        <Image Grid.Row="1" x:Name="Img5" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="895,85,0,0"  VerticalAlignment="Top" Width="54"/>
+        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="856,150,0,0" VerticalAlignment="Top" Width="34"/>
+        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="856,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="856,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
 
 
     </Grid>
