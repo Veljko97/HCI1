@@ -18,3 +18,23 @@ C:\Users\marko\source\repos\WeatherApp\WeatherApp\obj\Debug\WeatherApp.csproj.Co
 C:\Users\marko\source\repos\WeatherApp\WeatherApp\obj\Debug\WeatherApp.exe
 C:\Users\marko\source\repos\WeatherApp\WeatherApp\obj\Debug\WeatherApp.pdb
 C:\Users\marko\source\repos\WeatherApp\WeatherApp\obj\Debug\App.baml
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\WeatherApp.exe.config
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\WeatherApp.exe
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\WeatherApp.pdb
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\Newtonsoft.Json.dll
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\Newtonsoft.Json.pdb
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\bin\Debug\Newtonsoft.Json.xml
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.csprojAssemblyReference.cache
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\MainWindow.g.cs
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\App.g.cs
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp_MarkupCompile.cache
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp_MarkupCompile.lref
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\App.baml
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\MainWindow.baml
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.g.resources
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.Properties.Resources.resources
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.csproj.GenerateResource.cache
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.csproj.CoreCompileInputs.cache
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.csproj.CopyComplete
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.exe
+D:\Faks\6 semestar\hci\HCI1\WeatherApp\WeatherApp\obj\Debug\WeatherApp.pdb

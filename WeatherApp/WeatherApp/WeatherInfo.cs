@@ -19,6 +19,11 @@ namespace WeatherApp
             public City city { get; set; }
         }
 
+        public class IPObject
+        {
+            public string city { get; set; }
+        }
+
         public class City
         {
             public int id { get; set; }
