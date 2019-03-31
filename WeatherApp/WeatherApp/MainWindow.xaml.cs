@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
+using LiveCharts;
+using LiveCharts.Wpf;
 using Image = System.Drawing.Image;
 
 namespace WeatherApp
@@ -32,7 +34,18 @@ namespace WeatherApp
     {
         const string appid = "c665da500cfb20637389a225a77ffa71";
 
+        public SeriesCollection SeriesCollection { get; set; }
+
         public string TempSymbol { get; set; }
+       
+        public Func<double, string> YFormatter { get; set; }
+
+        private Border Selected { get; set; }
+
+        public string[] Labels { get; set; }
+        private WeatherInfo.Rootobject Data { get; set; }
+
+        private int SecondDay { get; set; }
 
         public MainWindow()
         {
@@ -43,6 +56,8 @@ namespace WeatherApp
             this.Background = myBrush;
             TempSymbol = "°C";
             getUserLocation();
+            Selected = new Border();
+            YFormatter = value => string.Format("{0:0.00}"+ TempSymbol, value);
         }
 
         void getUserLocation()
@@ -50,8 +65,15 @@ namespace WeatherApp
             using (WebClient web = new WebClient())
             {
                 string url = string.Format("https://api.ipdata.co/?api-key=cc18d6b6ad30a29071dc75de15debef6e74093fad097d41b93f76e1c");
-                var jsonLocation = web.DownloadString(url);
-
+                string jsonLocation;
+                try
+                {
+                    jsonLocation = web.DownloadString(url);
+                }
+                catch
+                {
+                    return;
+                }
                 var result = JsonConvert.DeserializeObject<WeatherInfo.IPObject>(jsonLocation);
                 getWeather(string.Format("{0}", result.city));
             }
@@ -84,18 +106,41 @@ namespace WeatherApp
             }
             return min;
         }
- 
+        
+        private List<double> getDayTemps(int begin, int end, WeatherInfo.List[] list)
+        {
+            List<double> temps = new List<double>();
+            List<string> times = new List<string>();
+            for (int i = begin; i < end; i++)
+            {
+                temps.Add(list[i].main.temp);
+                times.Add(list[i].dt_txt.Split(' ')[1]);
+            }
+            Labels = times.ToArray();
+            DataContext = this;
+            return temps;
+        }
+
         void getWeather(string city)
         {
             using(WebClient web = new WebClient())
             {
                 string cityName = city;
                 string url = string.Format("http://api.openweathermap.org/data/2.5/forecast?q={0}&appid={1}&units=" + (this.TempSymbol.Equals("°F") ? "imperial" : "metric"), cityName,appid);
-                var json = web.DownloadString(url);
-
+                string json;
+                try
+                {
+                    json = web.DownloadString(url);
+                }
+                catch
+                {
+                    Console.Write("Nije pronadjen uneti grad: " + cityName);
+                    return;
+                }
+                label_CityName.Content = cityName;
                 var result = JsonConvert.DeserializeObject<WeatherInfo.Rootobject>(json);
                 WeatherInfo.Rootobject output = result;
-                
+                Data = output;
                 //grad, drzava, trenutna temperatura
                 label_CityName.Content = string.Format("{0}", output.city.name);
                 label_CountryName.Content = string.Format("{0}", output.city.country);
@@ -104,7 +149,7 @@ namespace WeatherApp
                 int hour = Int32.Parse(output.list[0].dt_txt.Split(' ')[1].Split(':')[0]);
      
                 int secondDayStartIndex = (24 - hour) / 3 == 0 ? 8 : (24 - hour) / 3;
-
+                SecondDay = secondDayStartIndex;
                 // uzima vrednosti za datum
                 label_1.Content = string.Format("{0}", output.list[0].dt_txt.Split(' ')[0]);
                 label_2.Content = string.Format("{0}", output.list[secondDayStartIndex].dt_txt.Split(' ')[0]);
@@ -149,7 +194,7 @@ namespace WeatherApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            label_CityName.Content = countryText.Text;
+            
             getWeather(countryText.Text);
         }
 
@@ -164,6 +209,11 @@ namespace WeatherApp
                 else
                     getWeather(chosenCity);
             }
+            if (Selected.BorderBrush != null)
+            {
+                setChart();
+                chart_day.Update();
+            }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -177,6 +227,124 @@ namespace WeatherApp
                 else
                     getWeather(chosenCity);
             }
+            if(Selected.BorderBrush != null)
+            {
+                setChart();
+                chart_day.Update();
+            }
+        }
+
+        private void setChart()
+        {
+            switch (Selected.Name)
+            {
+                case "boredr_0":
+                    {
+                        chart_day.Series = new SeriesCollection
+                        {
+                            new LineSeries
+                            {
+                                Title = "Temp",
+                                Values = new ChartValues<double>(getDayTemps(0,SecondDay,Data.list))
+                            }
+                        };
+                        break;
+                    }
+                case "boredr_1":
+                    {
+                        chart_day.Series = new SeriesCollection
+                        {
+                            new LineSeries
+                            {
+                                Title = "day1",
+                                Values = new ChartValues<double>(getDayTemps(SecondDay, SecondDay + 8, Data.list))
+                            }
+                        };
+                        break;
+                    }
+                case "boredr_2":
+                    {
+                        chart_day.Series = new SeriesCollection
+                        {
+                            new LineSeries
+                            {
+                                Title = "day1",
+                                Values = new ChartValues<double>(getDayTemps(SecondDay + 8, SecondDay + 16, Data.list))
+                            }
+                        };
+                        break;
+                    }
+                case "boredr_3":
+                    {
+                        chart_day.Series = new SeriesCollection
+                        {
+                            new LineSeries
+                            {
+                                Title = "day1",
+                                Values = new ChartValues<double>(getDayTemps(SecondDay + 16, SecondDay + 24, Data.list))
+                            }
+                        };
+                        break;
+                    }
+                case "boredr_4":
+                    {
+                        chart_day.Series = new SeriesCollection
+                        {
+                            new LineSeries
+                            {
+                                Title = "day1",
+                                Values = new ChartValues<double>(getDayTemps(SecondDay + 24, SecondDay + 32, Data.list))
+                            }
+                        };
+                        break;
+                    }
+            }
+        }
+
+        private void Grid_MouseDown(object sender, RoutedEventArgs e )
+        {
+            Border b = (Border)sender;
+            if (b.Name.Equals(Selected.Name))
+            {
+                return;
+            }
+            System.Windows.Media.Brush brush = null;
+            if (Selected.BorderBrush != null)
+            {
+                brush = Selected.BorderBrush.Clone();
+                brush.Opacity = 0;
+                Selected.BorderBrush = brush;
+            }
+            Selected = b;
+            brush = Selected.BorderBrush.Clone();
+            brush.Opacity = 1;
+            Selected.BorderBrush = brush;
+            setChart();
+            chart_day.Visibility = Visibility.Visible;
+        }
+
+        private void grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Border b = (Border)sender;
+            if (b.Name.Equals(Selected.Name))
+            {
+                return;
+            }
+            var brush = b.BorderBrush.Clone();
+            brush.Opacity = 0.5;
+            b.BorderBrush = brush;
+        }
+
+        private void grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Border b = (Border)sender;
+            if (b.Name.Equals(Selected.Name))
+            {
+                return;
+            }
+            var brush = b.BorderBrush.Clone();
+            brush.Opacity = 0;
+            b.BorderBrush = brush;
         }
     }
 }

@@ -3,17 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:WeatherApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200">
     <Grid Margin="0,0,2,-21">
         <Grid.RowDefinitions>
             <RowDefinition Height="25*"/>
-            <RowDefinition Height="75*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="City" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="42,44,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner" FontWeight="Bold"/>
         <Label Grid.Row="0" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="42,87,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="232,44,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="226,83,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
         <Label Content="Show:" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
         <Button Content="°C" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
         <Button Content="°F" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="559,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>
@@ -21,70 +23,130 @@
         <Label Content="City:" Grid.Column="2" HorizontalAlignment="Left" Margin="711,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
         <TextBox Grid.Row="0" Name="countryText" HorizontalAlignment="Left"  Height="28" Margin="711,70,0,0" VerticalAlignment="Top" Width="273" TextWrapping="Wrap" Grid.Column="2"  />
         <Button Grid.Row="0" Content="Search" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="711,109,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" Grid.Column="2"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
 
-        <!-- Datum i satnica labela -->
-        <Label Grid.Row="1" Name="label_1" Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
+            <Border Name="boredr_0" Grid.Column="0"  BorderThickness="1" MouseDown="Grid_MouseDown" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave" >
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Aqua" Opacity="0"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0"/>
+                </Border.Background>
+                <Grid Name="mon_grid"  >
+                    <!-- Datum i satnica labela -->
+                    <Label  Name="label_1" Foreground="White"  Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
 
-        <!-- Temperature po satima labela -->
-        <Label Grid.Row="1" Name="label_1T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <!-- Temperature po satima labela -->
+                    <Label  Name="label_1T"  Foreground="White"  Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
 
-        <!-- Vetar labela -->
-        <Label Grid.Row="1" x:Name="label_1Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <!-- Vetar labela -->
+                    <Label x:Name="label_1Wind"   Foreground="White"  Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
 
-        <!-- Pritisak labela -->
-        <Label Grid.Row="1" x:Name="label_1Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
-
-
-        <!-- Slika opisa vremena -->
-        <Image Grid.Row="1" Name="Img1"   Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
-
-        <!-- Slika termometar-->
-        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
-
-        <!-- Slika vetar-->
-        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-
-
-        <!-- Slika barometar-->
-        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-
-        <Label Grid.Row="1" x:Name="label_2"  Foreground="white"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="284,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
-        <Label Grid.Row="1" x:Name="label_2T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,150,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_2Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,200,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_2Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="310,250,0,0"  VerticalAlignment="Top" Width="90"/>
-        <Image Grid.Row="1" x:Name="Img2" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="295,85,0,0"  VerticalAlignment="Top" Width="54"/>
-        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="256,150,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="256,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="256,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <!-- Pritisak labela -->
+                    <Label  x:Name="label_1Pressure"    Foreground="White" Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
 
 
-        <Label Grid.Row="1" x:Name="label_3"  Foreground="white"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="484,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
-        <Label Grid.Row="1" x:Name="label_3T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,150,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_3Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,200,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_3Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="510,250,0,0"  VerticalAlignment="Top" Width="90"/>
-        <Image Grid.Row="1" x:Name="Img3" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="495,85,0,0"  VerticalAlignment="Top" Width="54"/>
-        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="456,150,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="456,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="456,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <!-- Slika opisa vremena -->
+                    <Image  Name="Img1"   Source="sunny.png" HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
 
-        <Label Grid.Row="1" x:Name="label_4"  Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="684,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
-        <Label Grid.Row="1" x:Name="label_4T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,150,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_4Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,200,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_4Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="710,250,0,0"  VerticalAlignment="Top" Width="90"/>
-        <Image Grid.Row="1" x:Name="Img4" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="695,85,0,0"  VerticalAlignment="Top" Width="54"/>
-        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="656,150,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="656,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="656,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <!-- Slika termometar-->
+                    <Image Source="therm.png"  HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
 
-        <Label Grid.Row="1" x:Name="label_5"  Foreground="White"  Grid.ColumnSpan="2" Content="3"   HorizontalAlignment="Left" Height="40" Margin="884,50,0,0"  VerticalAlignment="Top" Width="132"  FontSize="12"/>
-        <Label Grid.Row="1" x:Name="label_5T"  Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,150,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_5Wind"   Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,200,0,0"  VerticalAlignment="Top" Width="70"/>
-        <Label Grid.Row="1" x:Name="label_5Pressure"    Foreground="White"  Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Height="33" Margin="910,250,0,0"  VerticalAlignment="Top" Width="90"/>
-        <Image Grid.Row="1" x:Name="Img5" Source="sunny.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="53" Margin="895,85,0,0"  VerticalAlignment="Top" Width="54"/>
-        <Image Grid.Row="1" Source="therm.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="42" Margin="856,150,0,0" VerticalAlignment="Top" Width="34"/>
-        <Image Grid.Row="1" Source="wind.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="856,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
-        <Image Grid.Row="1" Source="barometer.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="44" Margin="856,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <!-- Slika vetar-->
+                    <Image  Source="wind.png" HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
 
 
+                    <!-- Slika barometar-->
+                    <Image Source="barometer.png" HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                </Grid>
+            </Border>
+            <Border Name="boredr_1" Grid.Column="1"  BorderThickness="1" MouseDown="Grid_MouseDown" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Aqua" Opacity="0"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0"/>
+                </Border.Background>
+                <Grid Name="tus_grid">
+                    <Label  x:Name="label_2"  Foreground="white"   Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0" VerticalAlignment="Top" Width="132"  FontSize="12"/>
+                    <Label  x:Name="label_2T"  Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_2Wind"   Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_2Pressure"    Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
+                    <Image  x:Name="Img2" Source="sunny.png"  HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
+                    <Image  Source="therm.png"  HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
+                    <Image  Source="wind.png"  HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <Image  Source="barometer.png"  HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                </Grid>
+            </Border>
+            <Border Name="boredr_2" Grid.Column="2" BorderThickness="1" MouseDown="Grid_MouseDown" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave" >
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Aqua" Opacity="0"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0"/>
+                </Border.Background>
+                <Grid Name="wen_grid">
+                    <Label  x:Name="label_3"  Foreground="white"   Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0" VerticalAlignment="Top" Width="132"  FontSize="12"/>
+                    <Label  x:Name="label_3T"  Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_3Wind"   Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_3Pressure"    Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
+                    <Image  x:Name="Img3" Source="sunny.png"  HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
+                    <Image  Source="therm.png"  HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
+                    <Image  Source="wind.png"  HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <Image  Source="barometer.png"  HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                </Grid>
+            </Border>
+            <Border Name="boredr_3" Grid.Column="3"  BorderThickness="1" MouseDown="Grid_MouseDown" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave" >
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Aqua" Opacity="0"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0"/>
+                </Border.Background>
+                <Grid Name="thu_grid">
+                    <Label  x:Name="label_4"  Foreground="white"   Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0" VerticalAlignment="Top" Width="132"  FontSize="12"/>
+                    <Label  x:Name="label_4T"  Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_4Wind"   Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_4Pressure"    Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
+                    <Image  x:Name="Img4" Source="sunny.png"  HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
+                    <Image  Source="therm.png"  HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
+                    <Image  Source="wind.png"  HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <Image  Source="barometer.png"  HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                </Grid>
+            </Border>
+            <Border Name="boredr_4" Grid.Column="4" BorderThickness="1" MouseDown="Grid_MouseDown" MouseEnter="grid_MouseEnter" MouseLeave="grid_MouseLeave" >
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Aqua" Opacity="0"/>
+                </Border.BorderBrush>
+                <Border.Background>
+                    <SolidColorBrush Color="#000000" Opacity="0"/>
+                </Border.Background>
+                <Grid Name="fri_grid">
+                    <Label  x:Name="label_5"  Foreground="white"   Content="3"   HorizontalAlignment="Left" Height="40" Margin="84,50,0,0" VerticalAlignment="Top" Width="132"  FontSize="12"/>
+                    <Label  x:Name="label_5T"  Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,150,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_5Wind"   Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="110,200,0,0"  VerticalAlignment="Top" Width="70"/>
+                    <Label  x:Name="label_5Pressure"    Foreground="White"   Content="Label" HorizontalAlignment="Left" Height="33" Margin="112,250,0,0"  VerticalAlignment="Top" Width="90"/>
+                    <Image  x:Name="Img5" Source="sunny.png"  HorizontalAlignment="Left" Height="53" Margin="100,85,0,0"  VerticalAlignment="Top" Width="54"/>
+                    <Image  Source="therm.png"  HorizontalAlignment="Left" Height="42" Margin="56,150,0,0" VerticalAlignment="Top" Width="34"/>
+                    <Image  Source="wind.png"  HorizontalAlignment="Left" Height="44" Margin="56,200,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                    <Image  Source="barometer.png"  HorizontalAlignment="Left" Height="44" Margin="56,250,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.485,0.486"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <lvc:CartesianChart Name="chart_day" Grid.Row="2" Visibility="Hidden" Margin="0,0,0,20">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Temp" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding Labels}"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
     </Grid>
 </Window>
