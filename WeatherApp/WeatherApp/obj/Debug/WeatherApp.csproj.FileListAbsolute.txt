@@ -94,3 +94,5 @@ D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\LiveCharts.pd
 D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\LiveCharts.xml
 D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\LiveCharts.Wpf.pdb
 D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\LiveCharts.Wpf.xml
+D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\WPFTextBoxAutoComplete.dll
+D:\Faks\6.semestar\HCI\projekti\P1\WeatherApp\WeatherApp\bin\Debug\WPFTextBoxAutoComplete.pdb

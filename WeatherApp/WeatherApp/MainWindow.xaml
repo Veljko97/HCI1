@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
         xmlns:local="clr-namespace:WeatherApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="1200">
@@ -13,16 +14,20 @@
             <RowDefinition Height="45*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="City" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="42,44,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner" FontWeight="Bold"/>
-        <Label Grid.Row="0" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="42,87,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="226,83,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Content="Show:" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
-        <Button Content="°C" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="459,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
-        <Button Content="°F" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="559,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>
-        
-        <Label Content="City:" Grid.Column="2" HorizontalAlignment="Left" Margin="711,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
-        <TextBox Grid.Row="0" Name="countryText" HorizontalAlignment="Left"  Height="28" Margin="711,70,0,0" VerticalAlignment="Top" Width="273" TextWrapping="Wrap" Grid.Column="2"  />
-        <Button Grid.Row="0" Content="Search" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="711,109,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click" Grid.Column="2"/>
+        <Label Grid.Row="0" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="332,32,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner" FontWeight="Bold"/>
+        <Label Grid.Row="0" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="332,75,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="406,71,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Content="Show:" HorizontalAlignment="Left" Margin="95,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
+        <Button Content="°C" HorizontalAlignment="Left" Margin="39,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
+        <Button Content="°F" HorizontalAlignment="Left" Margin="139,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>
+
+        <Label Content="City:" HorizontalAlignment="Left" Margin="699,31,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
+        <Label x:Name="label_error" HorizontalAlignment="Left" Margin="695,98,0,0" VerticalAlignment="Top" Foreground="Red" FontSize="12"  FontFamily="neoteric regular" Height="23" Width="203"/>
+        <TextBox Grid.Row="0" Name="countryText" HorizontalAlignment="Left"  Height="28" Margin="693,70,0,0" VerticalAlignment="Top" Width="209" TextWrapping="Wrap" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding History}" />
+        <Button Grid.Row="0" Content="Search" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="693,121,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <Button Grid.Row="0" Content="Save" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="791,121,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click_Save"/>
+        <Button x:Name="button_remove" Grid.Row="0" Content="Remove" HorizontalAlignment="Left" Height="24" IsDefault="True"  Margin="1071,121,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click_Remove"/>
+        <ListBox x:Name="ListBox_saved" Grid.Row="0" Margin="938,21,38,57" ItemsSource="{Binding Path=Saved}" SelectionChanged="ListBox_saved_Selected"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*"/>
@@ -140,7 +145,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <lvc:CartesianChart Name="chart_day" Grid.Row="2" Visibility="Hidden" Margin="0,0,0,20">
+        <lvc:CartesianChart Name="chart_day" Grid.Row="2" Visibility="Visible" Margin="0,0,0,20">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Temp" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -148,5 +153,6 @@
                 <lvc:Axis Title="Time" Labels="{Binding Labels}"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
         </lvc:CartesianChart>
+        <Image  x:Name="Img0"   Source="sunny.png" HorizontalAlignment="Left" Height="53"  VerticalAlignment="Top" Width="54" Margin="435,112,0,0"/>
     </Grid>
 </Window>

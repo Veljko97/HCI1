@@ -14,10 +14,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Image = System.Drawing.Image;
+using System.IO;
 
 namespace WeatherApp
 {
@@ -30,9 +33,24 @@ namespace WeatherApp
     // api call api.openweathermap.org/data/2.5/forecast?q={city name},{country code}
 
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         const string appid = "c665da500cfb20637389a225a77ffa71";
+
+        const string savedFile = "../../saved.bin";
+        const string historyFile = "../../history.bin";
+
+        #region PropertyChangedNotifier
+        protected virtual void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
         public SeriesCollection SeriesCollection { get; set; }
 
@@ -42,7 +60,28 @@ namespace WeatherApp
 
         private Border Selected { get; set; }
 
-        public string[] Labels { get; set; }
+        public string[] _labels;
+
+        public string[] Labels
+        {
+            get
+            {
+                return _labels;
+            }
+            set
+            {
+                if (value != _labels)
+                {
+                    _labels = value;
+                    OnPropertyChanged("labels");
+                }
+            }
+        }
+
+        public ObservableCollection<string> Saved { get; set; }
+
+        public ObservableCollection<string> History { get; set; }
+
         private WeatherInfo.Rootobject Data { get; set; }
 
         private int SecondDay { get; set; }
@@ -54,10 +93,67 @@ namespace WeatherApp
             myBrush.ImageSource =
               new BitmapImage(new Uri("../../background.jpg", UriKind.Relative));
             this.Background = myBrush;
+            readFromFile();
+            readHistory();
             TempSymbol = "°C";
+            Selected = null;
+            YFormatter = value => string.Format("{0:0.00}" + TempSymbol, value);
             getUserLocation();
-            Selected = new Border();
-            YFormatter = value => string.Format("{0:0.00}"+ TempSymbol, value);
+            Grid_MouseDown(boredr_0, new RoutedEventArgs());
+            
+            
+        }
+
+        public void saveToFile()
+        {
+            using(Stream stream = File.Open(savedFile,FileMode.Create))
+            {
+                var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                formatter.Serialize(stream, Saved);
+            }
+        }
+
+        public void historyToFile()
+        {
+            using (Stream stream = File.Open(historyFile, FileMode.Create))
+            {
+                var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                formatter.Serialize(stream, History);
+            }
+        }
+        
+        public void readFromFile()
+        {
+            try
+            {
+                using (Stream stream = File.Open(savedFile, FileMode.Open))
+                {
+                    var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    Saved = (ObservableCollection<string>)formatter.Deserialize(stream);
+                }
+            }
+            catch
+            {
+                File.Open(savedFile, FileMode.Create);
+                Saved = new ObservableCollection<string>();
+            }
+        }
+
+        public void readHistory()
+        {
+            try
+            {
+                using (Stream stream = File.Open(historyFile, FileMode.Open))
+                {
+                    var formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    History = (ObservableCollection<string>)formatter.Deserialize(stream);
+                }
+            }
+            catch
+            {
+                File.Open(historyFile, FileMode.Create);
+                History = new ObservableCollection<string>();
+            }
         }
 
         void getUserLocation()
@@ -134,9 +230,11 @@ namespace WeatherApp
                 }
                 catch
                 {
-                    Console.Write("Nije pronadjen uneti grad: " + cityName);
+                    label_error.Content = "City wasn't fount: " + cityName;
                     return;
                 }
+                History.Add(cityName);
+                historyToFile();
                 label_CityName.Content = cityName;
                 var result = JsonConvert.DeserializeObject<WeatherInfo.Rootobject>(json);
                 WeatherInfo.Rootobject output = result;
@@ -144,7 +242,7 @@ namespace WeatherApp
                 //grad, drzava, trenutna temperatura
                 label_CityName.Content = string.Format("{0}", output.city.name);
                 label_CountryName.Content = string.Format("{0}", output.city.country);
-                label_Temperature.Content = string.Format("{0} " + this.TempSymbol, Convert.ToInt64(Math.Floor(Convert.ToDouble(output.list[0].main.temp))));
+                label_Temperature.Content = string.Format("Temp: {0} " + this.TempSymbol, Convert.ToInt64(Math.Floor(Convert.ToDouble(output.list[0].main.temp))));
 
                 int hour = Int32.Parse(output.list[0].dt_txt.Split(' ')[1].Split(':')[0]);
      
@@ -161,6 +259,7 @@ namespace WeatherApp
                 int secondDayMiddle = secondDayStartIndex + 4;
 
                 //Ikonice
+                Img0.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + output.list[0].weather[0].icon + ".png"));
                 Img1.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + output.list[firstDayMiddle].weather[0].icon + ".png"));
                 Img2.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + output.list[secondDayMiddle].weather[0].icon + ".png"));
                 Img3.Source = new BitmapImage(new Uri("http://openweathermap.org/img/w/" + output.list[secondDayMiddle + 8].weather[0].icon + ".png"));
@@ -192,22 +291,100 @@ namespace WeatherApp
             
         }
 
+        public Boolean findInSaved(string label)
+        {
+            Boolean flag = true;
+            int i = 0;
+            foreach (String item in Saved)
+            {
+                if (item.Equals(label))
+                {
+                    ListBox_saved.SelectedIndex = i;
+                    flag = false;
+                    break;
+                }
+                i++;
+            }
+
+            return flag;
+        }
+
+        public Boolean addItem(string label)
+        {
+            Boolean flag = findInSaved(label);
+            if (flag)
+            {
+                Saved.Add(label);
+            }
+            getWeather(label);
+            return flag;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
-            getWeather(countryText.Text);
+            label_error.Content = "";
+            if (countryText.Text.Equals(""))
+            {
+                getUserLocation();
+            }
+            else
+            {
+                getWeather(countryText.Text);
+            }
+            if (label_error.Content.ToString().Equals(""))
+            {
+                if (findInSaved(label_CityName.Content.ToString()))
+                {
+                    ListBox_saved.UnselectAll();
+                }
+            }
+            Grid_MouseDown(boredr_0, new RoutedEventArgs());
+            countryText.Text = "";
         }
+
+        private void Button_Click_Save(object sender, RoutedEventArgs e)
+        {
+            label_error.Content = "";
+            Boolean toSave = false;
+            if (countryText.Text.Equals(""))
+            {
+                getUserLocation();
+                toSave = addItem(label_CityName.Content.ToString());
+            }
+            else
+            {
+                getWeather(countryText.Text);
+                if (label_error.Content.ToString().Equals(""))
+                {
+                    toSave = addItem(countryText.Text);
+                }
+            }
+            if (toSave)
+            {
+                saveToFile();
+            }
+            countryText.Text = "";
+        }
+
+        private void Button_Click_Remove(object sender, RoutedEventArgs e)
+        {   
+            if(ListBox_saved.SelectedValue == null)
+            {
+                return;
+            }
+            string item = ListBox_saved.SelectedValue.ToString();
+            Saved.Remove(item);
+            ListBox_saved.UnselectAll();
+            saveToFile();
+        }
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (!this.TempSymbol.Equals("°C"))
             {
                 this.TempSymbol = "°C";
-                string chosenCity = countryText.Text;
-                if (chosenCity.Equals(""))
-                    getUserLocation();
-                else
-                    getWeather(chosenCity);
+                getWeather(label_CityName.Content.ToString());
             }
             if (Selected.BorderBrush != null)
             {
@@ -221,11 +398,7 @@ namespace WeatherApp
             if (!this.TempSymbol.Equals("°F"))
             {
                 this.TempSymbol = "°F";
-                string chosenCity = countryText.Text;
-                if (chosenCity.Equals(""))
-                    getUserLocation();
-                else
-                    getWeather(chosenCity);
+                getWeather(label_CityName.Content.ToString());
             }
             if(Selected.BorderBrush != null)
             {
@@ -256,7 +429,7 @@ namespace WeatherApp
                         {
                             new LineSeries
                             {
-                                Title = "day1",
+                                Title = "Temp",
                                 Values = new ChartValues<double>(getDayTemps(SecondDay, SecondDay + 8, Data.list))
                             }
                         };
@@ -268,7 +441,7 @@ namespace WeatherApp
                         {
                             new LineSeries
                             {
-                                Title = "day1",
+                                Title = "Temp",
                                 Values = new ChartValues<double>(getDayTemps(SecondDay + 8, SecondDay + 16, Data.list))
                             }
                         };
@@ -280,7 +453,7 @@ namespace WeatherApp
                         {
                             new LineSeries
                             {
-                                Title = "day1",
+                                Title = "Temp",
                                 Values = new ChartValues<double>(getDayTemps(SecondDay + 16, SecondDay + 24, Data.list))
                             }
                         };
@@ -292,7 +465,7 @@ namespace WeatherApp
                         {
                             new LineSeries
                             {
-                                Title = "day1",
+                                Title = "Temp",
                                 Values = new ChartValues<double>(getDayTemps(SecondDay + 24, SecondDay + 32, Data.list))
                             }
                         };
@@ -304,12 +477,12 @@ namespace WeatherApp
         private void Grid_MouseDown(object sender, RoutedEventArgs e )
         {
             Border b = (Border)sender;
-            if (b.Name.Equals(Selected.Name))
+            if (b.Name.Equals(Selected?.Name))
             {
                 return;
             }
             System.Windows.Media.Brush brush = null;
-            if (Selected.BorderBrush != null)
+            if (Selected?.BorderBrush != null)
             {
                 brush = Selected.BorderBrush.Clone();
                 brush.Opacity = 0;
@@ -321,6 +494,7 @@ namespace WeatherApp
             Selected.BorderBrush = brush;
             setChart();
             chart_day.Visibility = Visibility.Visible;
+            chart_day.Update();
         }
 
         private void grid_MouseEnter(object sender, MouseEventArgs e)
@@ -345,6 +519,19 @@ namespace WeatherApp
             var brush = b.BorderBrush.Clone();
             brush.Opacity = 0;
             b.BorderBrush = brush;
+        }
+
+        private void ListBox_saved_Selected(object sender, RoutedEventArgs e)
+        {
+            if (ListBox_saved.SelectedItem == null)
+            {
+                button_remove.IsEnabled = false;
+            }
+            else
+            {
+                getWeather(ListBox_saved.SelectedValue.ToString());
+                button_remove.IsEnabled = true;
+            }
         }
     }
 }
