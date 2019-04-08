@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Name="label_CityName" Foreground="White" HorizontalAlignment="Left" Height="89" Margin="332,32,0,0" VerticalAlignment="Top" Width="345"  FontSize="40" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner" FontWeight="Bold"/>
         <Label Grid.Row="0" Content="Country" Name="label_CountryName" HorizontalAlignment="Left" Height="46" Margin="332,75,0,0"   VerticalAlignment="Top" Width="126" FontSize="20" Style="{StaticResource CustomFont}" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
-        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="406,71,0,0"  VerticalAlignment="Top" Width="190" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
+        <Label Grid.Row="0" Content="Temp" Foreground="black" Name="label_Temperature" HorizontalAlignment="Left" Height="75" Margin="406,71,0,0"  VerticalAlignment="Top" Width="220" FontSize="40" RenderTransformOrigin="0.268,0.25" FontFamily="/WeatherApp;component/fonts/#TimeBurner"/>
         <Label Content="Show:" HorizontalAlignment="Left" Margin="95,21,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="neoteric regular" Foreground="White"/>
         <Button Content="°C" HorizontalAlignment="Left" Margin="39,70,0,0" VerticalAlignment="Top" Width="75" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_1"/>
         <Button Content="°F" HorizontalAlignment="Left" Margin="139,70,0,0" VerticalAlignment="Top" Width="74" Height="63" Opacity="0.5" FontSize="30" Click="Button_Click_2"/>

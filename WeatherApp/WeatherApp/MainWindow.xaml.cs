@@ -134,7 +134,8 @@ namespace WeatherApp
             }
             catch
             {
-                File.Open(savedFile, FileMode.Create);
+                Stream stream = File.Open(savedFile, FileMode.Create);
+                stream.Close();
                 Saved = new ObservableCollection<string>();
             }
         }
@@ -151,7 +152,8 @@ namespace WeatherApp
             }
             catch
             {
-                File.Open(historyFile, FileMode.Create);
+                Stream stream = File.Open(historyFile, FileMode.Create);
+                stream.Close();
                 History = new ObservableCollection<string>();
             }
         }
